@@ -56,3 +56,4 @@ docs/_build/
 obj
 *.pyproj
 *.sln
+*.suo
