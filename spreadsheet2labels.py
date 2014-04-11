@@ -16,7 +16,6 @@ import getpass
 import sys
 import string
 
-
 class SimpleCRUD:
 
     def __init__(self, email, password):
@@ -37,6 +36,14 @@ class SimpleCRUD:
     def Worksheets(self, key):
         # Get the list of worksheets
         feed = self.gd_client.GetWorksheetsFeed(key)
+        return feed.entry
+
+    def Column(self, SpreadsheetKey, WorksheetKey, col, max_row):
+        query = self.gd_client.CellQuery(min_row=1, max_rom=max_row, min_col=col, max_col=col, range='R1C' + col + ':R' + max_row + 'C' + col, return_empty=True)
+
+
+
+        feed = self.gd_client.GetCellsFeed(SpreadsheetKey, WorksheetKey)
         return feed.entry
         
     def _PromptForCellsAction(self):
@@ -168,9 +175,18 @@ def main():
                 else:
                     worksheetPrompt = False
                 if worksheetPrompt:
+                    # Parse this spreadsheet into csv
                     id_parts = Worksheet.id.text.split('/')
                     WorksheetKey = id_parts[len(id_parts) - 1]
-                    # Parse this spreadsheet into csv
+                    rows = Worksheet.row_count
+                    cols = Worksheet.col_count
+
+                    # for Cell in Docs.Cells(SpreadsheetKey, WorksheetKey):
+                    #     print(Cell.content.text)
+
+
+
+        
 
 
 if __name__ == '__main__':
