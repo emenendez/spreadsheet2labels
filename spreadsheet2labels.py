@@ -28,6 +28,8 @@ class SimpleCRUD:
     self.curr_key = ''
     self.curr_wksht_id = ''
     self.list_feed = None
+  
+  def Spreadsheets(self):
     
   def _PromptForSpreadsheet(self):
     # Get the list of spreadsheets
@@ -159,8 +161,11 @@ def main():
   user = raw_input('User: ')
   pw = getpass.getpass()
 
-  spreadsheet = SimpleCRUD(user, pw)
-  spreadsheet.Run()
+  Docs = SimpleCRUD(user, pw)
+  for Spreadsheet in Docs.Spreadsheets():
+
+
+  Docs.Run()
 
 
 if __name__ == '__main__':
