@@ -5,5 +5,5 @@ Convert Google Spreadsheets with multiple columns and categories into a single 2
 
 Dependencies
 ------------
-Python 2.7
-gspread
+- Python 2.7
+- gspread
