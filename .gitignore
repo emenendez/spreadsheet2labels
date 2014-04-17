@@ -57,3 +57,4 @@ obj
 *.pyproj
 *.sln
 *.suo
+/MANIFEST
