@@ -8,6 +8,9 @@ import csv
 import getpass
 import gspread
 
+__version__ = '0.1.0.dev1'
+
+
 def main():
     user = raw_input('User: ')
     pw = getpass.getpass()
