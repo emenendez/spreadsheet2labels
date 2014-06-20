@@ -49,7 +49,7 @@ def main():
 
     # Prepare output file
     writer = csv.writer(args.output)
-    writer.writerow(['Category', 'Name'])
+    writer.writerow(['Category', 'Value'])
 
     # Iterate through worksheets in Spreadsheet
     for Worksheet in Spreadsheet.worksheets():
