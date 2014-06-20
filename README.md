@@ -13,8 +13,8 @@ Example
 
 Turn a spreadsheet like this:
 
-| 0 | A          | B          |
-| - | ---------- | ---------- |
+|   | A          | B          |
+|---|------------|------------|
 | 1 | California | Maine      |
 | 2 | Half Dome  | Katahdin   |
 | 3 | Whitney    | Saddleback |
