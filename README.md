@@ -26,7 +26,7 @@ Turn a spreadsheet like this:
 Into this:
 
 ```
-Categoy, Value
+Category, Value
 California, Half Dome
 California, Whitney
 Washington, Rainier
