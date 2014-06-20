@@ -13,7 +13,7 @@ Example
 
 Turn a spreadsheet like this:
 
-|   | A          | B          |
+| 0 | A          | B          |
 | - | ---------- | ---------- |
 | 1 | California | Maine      |
 | 2 | Half Dome  | Katahdin   |
@@ -26,6 +26,7 @@ Turn a spreadsheet like this:
 Into this:
 
 ```
+Categoy, Value
 California, Half Dome
 California, Whitney
 Washington, Rainier
