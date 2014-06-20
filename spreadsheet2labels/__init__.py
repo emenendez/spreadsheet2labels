@@ -1,11 +1,11 @@
-#!/usr/bin/python
-
 from __future__ import print_function
+import argparse
 import csv
 import getpass
+import sys
 import gspread
 
-__version__ = '0.1.0.dev1'
+__version__ = '0.1.0'
 
 
 def fromworksheet(Worksheet):
@@ -27,29 +27,47 @@ def fromworksheet(Worksheet):
 
 
 def main():
-    user = raw_input('User: ')
-    pw = getpass.getpass()
+    def prompt(prompt):
+        if prompt.lower() == 'password':
+            return lambda value: getpass.getpass() if value is '-' else value
+        else:
+            return lambda value: raw_input(prompt + ': ') if value is '-' else value
 
-    # Login with your Google account
-    gc = gspread.login(user, pw)
+    parser = argparse.ArgumentParser(description='Turn a Google spreadsheet into a category, value CSV file suitable for making labels.')
+    parser.add_argument('-u', '--user', nargs='?', type=prompt('User'), default='-', const='-', help='Google account')
+    parser.add_argument('-p', '--password', nargs='?', type=prompt('Password'), default='-', const='-', help='Google account password')
+    parser.add_argument('-o', '--output', nargs='?', type=argparse.FileType('wb'), default=sys.stdout, help='output file')
+    parser.add_argument('spreadsheet', nargs='?', type=prompt('Spreadsheet'), default='-', help='spreadsheet to parse')
+    parser.add_argument('worksheet', nargs='*', help='worksheets to parse')
+    args = parser.parse_args()
+
+    # Login with Google account
+    gc = gspread.login(args.user, args.password)
 
     # Open spreadsheet
-    Spreadsheet = gc.open("2014 BSC info")
+    Spreadsheet = gc.open(args.spreadsheet)
 
     # Prepare output file
-    with open('output.csv', 'wb') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerow(['Category', 'Name'])
+    writer = csv.writer(args.output)
+    writer.writerow(['Category', 'Name'])
 
-        for Worksheet in Spreadsheet.worksheets():
+    # Iterate through worksheets in Spreadsheet
+    for Worksheet in Spreadsheet.worksheets():
+        if args.worksheet:
+            if Worksheet.title in args.worksheet:
+                worksheetPrompt = True
+            else:
+                worksheetPrompt = False
+        else:
             worksheetPrompt = raw_input('Use %s? [n]: ' % Worksheet.title)
             if worksheetPrompt.lower().startswith('y'):
                 worksheetPrompt = True
             else:
                 worksheetPrompt = False
-            if worksheetPrompt:
-                # Parse this spreadsheet into csv
-                writer.writerows(fromworksheet(Worksheet))
+        
+        if worksheetPrompt:
+            # Parse this spreadsheet into csv
+            writer.writerows(fromworksheet(Worksheet))
 
 
 if __name__ == '__main__':
